@@ -24,6 +24,7 @@ async function scrapeMatches() {
       const team1 = $(el).find('.right-team .team-name').text().trim();
       const team2 = $(el).find('.left-team .team-name').text().trim();
       const time = $(el).find('.match-time').text().trim();
+      const result = $(el).find('.result').text().trim(); // Extract Score
       const matchInfoLis = $(el).find('.match-info ul li span');
       const channel = $(matchInfoLis[0]).text().trim();
       const commentator = $(matchInfoLis[1]).text().trim();
@@ -42,31 +43,24 @@ async function scrapeMatches() {
           logo1,
           logo2,
           time,
+          score: result,
           league,
           channel,
           commentator,
           status,
           link: matchLink,
-          embedUrl: '' // Will fetch below
+          embedUrl: matchLink // Use main link to bypass SAMEORIGIN
         });
       }
     });
 
-    // Fetch embed URLs for each match
-    for (let match of matches) {
-      if (match.link) {
-        try {
-          const { data: matchData } = await axios.get(match.link, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' } });
-          const _$ = cheerio.load(matchData);
-          let iframeSrc = _$('iframe.video-iframe').attr('data-src') || _$('iframe.video-iframe').attr('src');
-          if (!iframeSrc) iframeSrc = _$('iframe').first().attr('src');
-          match.embedUrl = iframeSrc || match.link;
-        } catch (e) {
-          console.error('Failed to fetch embed for', match.link);
-          match.embedUrl = match.link;
-        }
-      }
-    }
+    // Sort matches
+    const getPriority = (status) => {
+      if (status.includes('جارية') || status.includes('الآن')) return 1;
+      if (status.includes('لم تبدأ') || status.includes('بعد قليل')) return 2;
+      return 3;
+    };
+    matches.sort((a, b) => getPriority(a.status) - getPriority(b.status));
 
     // Save to JSON
     const outputData = {

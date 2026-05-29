@@ -19,7 +19,7 @@
               <div class="match-info-center">
                 <div class="match-time"><%= match.time %></div>
                 <div class="match-status-badge"><%= match.status %></div>
-                <div class="match-vs">VS</div>
+                <div class="match-vs"><%= (match.status.includes('انتهت') || match.status.includes('جارية') || match.status.includes('الآن')) ? (match.score || 'VS') : 'VS' %></div>
               </div>
               <div class="team">
                 <img src="<%= match.logo2 %>" alt="<%= match.team2 %>" loading="lazy">

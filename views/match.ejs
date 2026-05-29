@@ -42,7 +42,7 @@
       <img src="<%= match.logo1 %>" alt="<%= match.team1 %>">
       <h2><%= match.team1 %></h2>
     </div>
-    <div class="vs-large">VS</div>
+    <div class="vs-large"><%= (match.status.includes('انتهت') || match.status.includes('جارية') || match.status.includes('الآن')) ? (match.score || 'VS') : 'VS' %></div>
     <div class="team-large">
       <img src="<%= match.logo2 %>" alt="<%= match.team2 %>">
       <h2><%= match.team2 %></h2>
