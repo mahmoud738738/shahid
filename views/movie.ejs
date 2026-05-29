@@ -51,7 +51,7 @@
         <% }) %>
       </div>
       <div class="player-wrapper">
-        <iframe id="playerIframe" src="<%= movie.servers[0].embedUrl || '' %>" frameborder="0" allowfullscreen></iframe>
+        <iframe id="playerIframe" src="<%= movie.servers[0].embedUrl || '' %>" frameborder="0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
       </div>
     </section>
   <% } %>
