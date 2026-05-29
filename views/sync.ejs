@@ -1,0 +1,85 @@
+<%- include('partials/header', { title: 'المزامنة' }) %>
+<div class="container">
+  <div class="page-header">
+    <h1><i class="fas fa-sync"></i> المزامنة مع المصدر</h1>
+    <% if (updatedAt) { %>
+      <p class="update-info">آخر تحديث للمكتبة: <%= new Date(updatedAt).toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %></p>
+    <% } %>
+  </div>
+
+  <div class="sync-status">
+    <div class="sync-stat"><span>عدد الأفلام</span><strong><%= status.movieCount || 0 %></strong></div>
+    <div class="sync-stat"><span>إجمالي الصفحات</span><strong><%= status.totalPages || 'غير معروف' %></strong></div>
+    <div class="sync-stat"><span>آخر فحص كامل</span><strong><%= status.lastFullScan ? new Date(status.lastFullScan).toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'لم يتم' %></strong></div>
+    <div class="sync-stat"><span>الحالة</span><strong class="<%= syncing ? 'syncing' : 'idle' %>"><%= syncing ? 'جارٍ المزامنة...' : 'جاهز' %></strong></div>
+  </div>
+
+  <div class="sync-actions">
+    <button class="btn-primary" id="syncRecent" <%= syncing ? 'disabled' : '' %>>
+      <i class="fas fa-sync"></i> مزامنة أحدث الإضافات
+    </button>
+    <button class="btn-secondary" id="syncFull" <%= syncing ? 'disabled' : '' %>>
+      <i class="fas fa-database"></i> مزامنة كاملة (جميع الصفحات)
+    </button>
+  </div>
+
+  <div class="sync-log" id="syncLog">
+    <% if (syncLog && syncLog.length > 0) { %>
+      <% syncLog.forEach(function(entry) { %>
+        <div class="log-entry"><span class="log-time">[<%= new Date(entry.time).toLocaleTimeString('ar-EG') %>]</span> <%= entry.msg %></div>
+      <% }) %>
+    <% } else { %>
+      <div class="log-empty">لم يتم تشغيل المزامنة بعد</div>
+    <% } %>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var logEl = document.getElementById('syncLog');
+  var syncRecent = document.getElementById('syncRecent');
+  var syncFull = document.getElementById('syncFull');
+
+  function startSync(mode) {
+    syncRecent.disabled = true;
+    syncFull.disabled = true;
+    logEl.innerHTML = '<div class="log-entry">جاري بدء المزامنة...</div>';
+
+    fetch('/api/sync?mode=' + mode, { method: 'POST' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.error) {
+          logEl.innerHTML = '<div class="log-entry log-error">' + data.error + '</div>';
+          syncRecent.disabled = false;
+          syncFull.disabled = false;
+          return;
+        }
+        pollStatus();
+      })
+      .catch(function(err) {
+        logEl.innerHTML = '<div class="log-entry log-error">خطأ: ' + err.message + '</div>';
+        syncRecent.disabled = false;
+        syncFull.disabled = false;
+      });
+  }
+
+  function pollStatus() {
+    var interval = setInterval(function() {
+      fetch('/api/status')
+        .then(function(r) { return r.json(); })
+        .then(function(s) {
+          if (!s.syncing) {
+            clearInterval(interval);
+            syncRecent.disabled = false;
+            syncFull.disabled = false;
+            window.location.reload();
+          }
+        });
+    }, 2000);
+  }
+
+  if (syncRecent) syncRecent.addEventListener('click', function() { startSync('recent'); });
+  if (syncFull) syncFull.addEventListener('click', function() { startSync('full'); });
+});
+</script>
+<%- include('partials/footer') %>

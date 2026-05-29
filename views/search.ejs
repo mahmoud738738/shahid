@@ -1,0 +1,45 @@
+<%- include('partials/header', { title: 'بحث' }) %>
+<div class="container">
+  <div class="page-header">
+    <h1><i class="fas fa-search"></i> بحث</h1>
+  </div>
+
+  <form class="search-form" action="/search" method="get">
+    <input type="text" name="q" placeholder="ابحث عن فيلم أو مسلسل..." value="<%= query %>" autofocus>
+    <button type="submit"><i class="fas fa-search"></i></button>
+  </form>
+
+  <% if (query) { %>
+    <p class="search-result-count"><%= movies.length %> نتيجة لـ "<%= query %>"</p>
+  <% } %>
+
+  <div class="movie-grid">
+    <% movies.forEach(function(m) { %>
+      <a href="/movie/<%= m.vid %>" class="movie-card" title="<%= m.title %>">
+        <div class="movie-card-poster">
+          <% if (m.poster) { %>
+            <img src="<%= m.poster %>" alt="<%= m.title %>" loading="lazy">
+          <% } else { %>
+            <div class="no-poster"><i class="fas fa-film"></i></div>
+          <% } %>
+          <% if (m.quality) { %><span class="quality-badge"><%= m.quality.split(' - ')[0] %></span><% } %>
+          <% if (m.type === 'series') { %><span class="type-badge-card">مسلسل</span><% } %>
+        </div>
+        <div class="movie-card-info">
+          <h3><%= m.title %></h3>
+          <div class="movie-meta">
+            <% if (m.year) { %><span><%= m.year %></span><% } %>
+          </div>
+        </div>
+      </a>
+    <% }) %>
+  </div>
+
+  <% if (query && movies.length === 0) { %>
+    <div class="no-results">
+      <i class="fas fa-search"></i>
+      <p>لا توجد نتائج مطابقة للبحث</p>
+    </div>
+  <% } %>
+</div>
+<%- include('partials/footer') %>

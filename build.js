@@ -1,0 +1,133 @@
+const fs = require('fs');
+const path = require('path');
+const ejs = require('ejs');
+
+const DIST_DIR = path.join(__dirname, 'dist');
+const VIEWS_DIR = path.join(__dirname, 'views');
+const PUBLIC_DIR = path.join(__dirname, 'public');
+const DATA_FILE = path.join(__dirname, 'data', 'movies.json');
+const SITE_URL = 'https://mahmoud738738.github.io/shahid'; // Updated URL
+
+// Helper functions
+function copyDir(src, dest) {
+  if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
+  const entries = fs.readdirSync(src, { withFileTypes: true });
+  for (let entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+    if (entry.isDirectory()) {
+      copyDir(srcPath, destPath);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+}
+
+function paginate(movies, page, perPage = 24) {
+  const total = movies.length;
+  const totalPages = Math.ceil(total / perPage) || 1;
+  const start = (page - 1) * perPage;
+  return {
+    movies: movies.slice(start, start + perPage),
+    page, totalPages, total,
+  };
+}
+
+async function renderPage(template, data, outputPath) {
+  const html = await ejs.renderFile(path.join(VIEWS_DIR, template), data);
+  const fullOutputPath = path.join(DIST_DIR, outputPath);
+  const dir = path.dirname(fullOutputPath);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(fullOutputPath, html, 'utf8');
+  console.log(`Generated: ${outputPath}`);
+}
+
+async function build() {
+  console.log('Starting build process...');
+
+  // 1. Prepare dist directory
+  if (fs.existsSync(DIST_DIR)) {
+    fs.rmSync(DIST_DIR, { recursive: true, force: true });
+  }
+  fs.mkdirSync(DIST_DIR, { recursive: true });
+  
+  // 2. Copy public assets
+  copyDir(PUBLIC_DIR, DIST_DIR);
+  console.log('Copied public assets.');
+
+  // 3. Load data
+  let data = { movies: [], updatedAt: new Date().toISOString() };
+  if (fs.existsSync(DATA_FILE)) {
+    data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+  }
+  const movies = data.movies;
+  const updatedAt = data.updatedAt;
+  const status = { movieCount: movies.length };
+  
+  const siteName = 'شاهد';
+
+  const sitemapUrls = [];
+  sitemapUrls.push(`${SITE_URL}/`);
+
+  // 4. Generate Home Pages (Pagination)
+  const perPage = 24;
+  const totalPages = Math.ceil(movies.length / perPage) || 1;
+  const latest = movies.slice(0, 6);
+  
+  for (let page = 1; page <= totalPages; page++) {
+    const pData = paginate(movies, page, perPage);
+    const fileName = page === 1 ? 'index.html' : `page-${page}.html`;
+    await renderPage('index.ejs', { ...pData, latest, updatedAt, status, siteName, pagePrefix: 'page-' }, fileName);
+  }
+
+  // 5. Generate Category Pages (Movies / Series)
+  const films = movies.filter(m => m.type === 'film');
+  const series = movies.filter(m => m.type === 'series');
+
+  // Movies
+  const filmsTotalPages = Math.ceil(films.length / perPage) || 1;
+  for (let page = 1; page <= filmsTotalPages; page++) {
+    const fileName = page === 1 ? 'movies.html' : `movies-page-${page}.html`;
+    await renderPage('category.ejs', { ...paginate(films, page, perPage), category: 'الأفلام', updatedAt, status, siteName, pagePrefix: 'movies-page-' }, fileName);
+    if(page === 1) sitemapUrls.push(`${SITE_URL}/movies.html`);
+  }
+
+  // Series
+  const seriesTotalPages = Math.ceil(series.length / perPage) || 1;
+  for (let page = 1; page <= seriesTotalPages; page++) {
+    const fileName = page === 1 ? 'series.html' : `series-page-${page}.html`;
+    await renderPage('category.ejs', { ...paginate(series, page, perPage), category: 'المسلسلات', updatedAt, status, siteName, pagePrefix: 'series-page-' }, fileName);
+    if(page === 1) sitemapUrls.push(`${SITE_URL}/series.html`);
+  }
+
+  // 6. Generate Movie Details Pages
+  for (let i = 0; i < movies.length; i++) {
+    const movie = movies[i];
+    const related = movies
+      .filter(m => m.vid !== movie.vid && (
+        m.category === movie.category ||
+        m.genre?.split(' ، ').some(g => movie.genre?.includes(g))
+      ))
+      .slice(0, 6);
+      
+    await renderPage('movie.ejs', { movie, related, siteName }, `movie/${movie.vid}.html`);
+    sitemapUrls.push(`${SITE_URL}/movie/${movie.vid}.html`);
+  }
+
+  // 7. Generate Sitemap
+  const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapUrls.map(url => `  <url>\n    <loc>${url}</loc>\n    <lastmod>${updatedAt.split('T')[0]}</lastmod>\n  </url>`).join('\n')}
+</urlset>`;
+  fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemapXml, 'utf8');
+  console.log('Generated: sitemap.xml');
+
+  // 8. Generate robots.txt
+  const robotsTxt = `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml`;
+  fs.writeFileSync(path.join(DIST_DIR, 'robots.txt'), robotsTxt, 'utf8');
+  console.log('Generated: robots.txt');
+
+  console.log('Build complete!');
+}
+
+build().catch(console.error);

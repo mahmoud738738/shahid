@@ -1,0 +1,48 @@
+<%- include('partials/header', { title: category }) %>
+<div class="container">
+  <div class="page-header">
+    <h1><%= category %></h1>
+    <% if (typeof total !== 'undefined') { %><p class="update-info"><%= total %> <%= category === 'المسلسلات' ? 'مسلسل' : 'فيلم' %></p><% } %>
+    <% if (updatedAt) { %><p class="update-info">آخر تحديث: <%= new Date(updatedAt).toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }) %></p><% } %>
+  </div>
+
+  <% if (movies && movies.length > 0) { %>
+    <div class="movie-grid">
+      <% movies.forEach(function(m) { %>
+        <a href="/movie/<%= m.vid %>.html" class="movie-card" title="<%= m.title %>">
+          <div class="movie-card-poster">
+            <% if (m.poster) { %>
+              <img src="<%= m.poster %>" alt="<%= m.title %>" loading="lazy">
+            <% } else { %>
+              <div class="no-poster"><i class="fas fa-film"></i></div>
+            <% } %>
+            <% if (m.quality) { %><span class="quality-badge"><%= m.quality.split(' - ')[0] %></span><% } %>
+            <% if (m.type === 'series') { %><span class="type-badge-card">مسلسل</span><% } %>
+          </div>
+          <div class="movie-card-info">
+            <h3><%= m.title %></h3>
+            <div class="movie-meta"><% if (m.year) { %><span><%= m.year %></span><% } %></div>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+
+    <% if (totalPages > 1) { %>
+      <div class="pagination">
+        <% if (page > 1) { %>
+          <a href="/<%= pagePrefix %><%= page - 1 %>.html" class="page-link"><i class="fas fa-chevron-right"></i> السابق</a>
+        <% } %>
+        <span class="page-info">الصفحة <%= page %> من <%= totalPages %></span>
+        <% if (page < totalPages) { %>
+          <a href="/<%= pagePrefix %><%= page + 1 %>.html" class="page-link">التالي <i class="fas fa-chevron-left"></i></a>
+        <% } %>
+      </div>
+    <% } %>
+  <% } else { %>
+    <div class="no-results">
+      <i class="fas fa-folder-open"></i>
+      <p>لا توجد نتائج</p>
+    </div>
+  <% } %>
+</div>
+<%- include('partials/footer') %>

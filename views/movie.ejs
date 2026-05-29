@@ -1,0 +1,113 @@
+<%- include('partials/header', { title: movie.title }) %>
+<div class="container">
+  <div class="breadcrumb">
+    <a href="/"><i class="fas fa-home"></i> الرئيسية</a>
+    <span class="sep"><i class="fas fa-chevron-left"></i></span>
+    <a href="/<%= movie.type === 'series' ? 'series.html' : 'movies.html' %>"><%= movie.type === 'series' ? 'المسلسلات' : 'الأفلام' %></a>
+    <span class="sep"><i class="fas fa-chevron-left"></i></span>
+    <span><%= movie.title %></span>
+  </div>
+
+  <div class="movie-header">
+    <div class="movie-poster-col">
+      <% if (movie.poster) { %>
+        <img src="<%= movie.poster %>" alt="<%= movie.title %>" class="movie-poster-main">
+      <% } %>
+    </div>
+    <div class="movie-info-col">
+      <h1 class="movie-title"><%= movie.title %></h1>
+      <div class="movie-tags">
+        <% if (movie.year) { %><span class="tag"><i class="fas fa-calendar-alt"></i> <%= movie.year %></span><% } %>
+        <% if (movie.quality) { %><span class="tag"><i class="fas fa-hd"></i> <%= movie.quality %></span><% } %>
+        <% if (movie.duration) { %><span class="tag"><i class="fas fa-clock"></i> <%= movie.duration %></span><% } %>
+        <% if (movie.type === 'series') { %><span class="tag tag-series"><i class="fas fa-tv"></i> مسلسل</span><% } %>
+      </div>
+      <% if (movie.category) { %>
+        <div class="movie-info-line"><span class="info-label">التصنيف:</span> <%= movie.category %></div>
+      <% } %>
+      <% if (movie.genre) { %>
+        <div class="movie-info-line"><span class="info-label">النوع:</span>
+          <% movie.genre.split(' ، ').forEach(function(g) { %>
+            <span class="genre-link"><%= g.trim() %></span>
+          <% }) %>
+        </div>
+      <% } %>
+      <% if (movie.story) { %>
+        <div class="story-section">
+          <h3><i class="fas fa-info-circle"></i> القصة</h3>
+          <p><%= movie.story %></p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+  <% if (movie.servers && movie.servers.length > 0) { %>
+    <section class="player-section">
+      <div class="player-tabs">
+        <% movie.servers.forEach(function(s, i) { %>
+          <button class="server-tab <%= i === 0 ? 'active' : '' %>" data-server="<%= i %>" data-embed="<%= s.embedUrl || '' %>">
+            <i class="fas fa-play"></i> <%= s.name %>
+          </button>
+        <% }) %>
+      </div>
+      <div class="player-wrapper">
+        <iframe id="playerIframe" src="<%= movie.servers[0].embedUrl || '' %>" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </section>
+  <% } %>
+
+  <% if (movie.downloads && movie.downloads.length > 0) { %>
+    <section class="downloads-section">
+      <div class="section-header">
+        <h2><i class="fas fa-download"></i> روابط التحميل</h2>
+      </div>
+      <div class="downloads-grid">
+        <% movie.downloads.forEach(function(d) { %>
+          <a href="<%= d.url %>" target="_blank" rel="noopener" class="download-card">
+            <span class="dq"><%= d.quality %></span>
+            <span class="dl"><%= d.label %></span>
+            <span class="dicon"><i class="fas fa-arrow-down"></i></span>
+          </a>
+        <% }) %>
+      </div>
+    </section>
+  <% } %>
+
+  <% if (related && related.length > 0) { %>
+    <section class="related-section">
+      <div class="section-header">
+        <h2><i class="fas fa-thumbs-up"></i> قد يعجبك أيضاً</h2>
+      </div>
+      <div class="movie-grid">
+        <% related.forEach(function(m) { %>
+          <a href="/movie/<%= m.vid %>.html" class="movie-card" title="<%= m.title %>">
+            <div class="movie-card-poster">
+              <img src="<%= m.poster || '' %>" alt="<%= m.title %>" loading="lazy">
+              <% if (m.quality) { %><span class="quality-badge"><%= m.quality.split(' - ')[0] %></span><% } %>
+            </div>
+            <div class="movie-card-info">
+              <h3><%= m.title %></h3>
+              <div class="movie-meta"><% if (m.year) { %><span><%= m.year %></span><% } %></div>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    </section>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>
+
+<% if (movie) { %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Movie",
+  "name": "<%= movie.title %>",
+  "image": "<%= movie.poster %>",
+  "description": "<%= movie.story ? movie.story.replace(/"/g, '\\"') : 'مشاهدة وتحميل ' + movie.title %>",
+  "dateCreated": "<%= movie.year %>",
+  "genre": "<%= movie.genre %>"
+}
+</script>
+<% } %>
