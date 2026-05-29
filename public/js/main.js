@@ -22,6 +22,24 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Season Tabs functionality
+  var seasonTabs = document.querySelectorAll('.season-tab');
+  if (seasonTabs.length) {
+    seasonTabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        seasonTabs.forEach(function(t) { t.classList.remove('active'); });
+        this.classList.add('active');
+        
+        var targetId = this.getAttribute('data-target');
+        var grids = document.querySelectorAll('.episodes-grid');
+        grids.forEach(function(g) { g.classList.remove('active'); });
+        
+        var targetGrid = document.getElementById(targetId);
+        if (targetGrid) targetGrid.classList.add('active');
+      });
+    });
+  }
+
   // Block any attempts to open popups from the page
   window.open = function() { return null; };
 });

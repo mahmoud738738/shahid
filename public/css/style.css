@@ -483,6 +483,97 @@ img { max-width: 100%; display: block; }
   border-top: 1px solid var(--border);
 }
 
+/* Series Seasons & Episodes */
+.series-section {
+  background: var(--bg-card);
+  padding: 30px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 40px;
+}
+
+.seasons-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
+
+.season-tab {
+  background: var(--bg-sidebar);
+  color: var(--text-light);
+  border: 1px solid var(--border);
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.season-tab:hover {
+  background: var(--hover);
+}
+
+.season-tab.active {
+  background: var(--primary);
+  color: #000;
+  border-color: var(--primary);
+  font-weight: 700;
+}
+
+.episodes-grid {
+  display: none;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 15px;
+}
+
+.episodes-grid.active {
+  display: grid;
+}
+
+.episode-card {
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 15px;
+  text-align: center;
+  color: var(--text-light);
+  text-decoration: none;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.episode-card:hover {
+  background: var(--hover);
+  border-color: var(--primary);
+  transform: translateY(-3px);
+}
+
+.episode-card.current {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+}
+
+.ep-num {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.ep-playing {
+  font-size: 0.8rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 /* Downloads */
 .downloads-section {
   background: var(--bg-card);

@@ -100,9 +100,55 @@ async function build() {
     if(page === 1) sitemapUrls.push(`${SITE_URL}/series.html`);
   }
 
+  // Group series by base title
+  const seriesGroups = {};
+  series.forEach(m => {
+    const seasonMatch = m.title.match(/الموسم\s+([^\s]+)/);
+    const episodeMatch = m.title.match(/الحلقة\s+(\d+)/);
+    
+    let seasonRaw = seasonMatch ? seasonMatch[1] : 'الاول';
+    let ep = episodeMatch ? parseInt(episodeMatch[1], 10) : 1;
+    
+    const seasonMap = {
+      'الاول': 1, 'الثاني': 2, 'الثالث': 3, 'الرابع': 4, 'الخامس': 5,
+      'السادس': 6, 'السابع': 7, 'الثامن': 8, 'التاسع': 9, 'العاشر': 10
+    };
+    let s = parseInt(seasonRaw);
+    if (isNaN(s)) s = seasonMap[seasonRaw] || 1;
+
+    let baseName = m.title.replace(/الموسم\s+[^\s]+/g, '')
+                          .replace(/الحلقة\s+\d+/g, '')
+                          .replace(/مترجم[ة]?/g, '')
+                          .replace(/مدبلج[ة]?/g, '')
+                          .replace(/مسلسل\s*/, '')
+                          .trim();
+                          
+    if (!seriesGroups[baseName]) seriesGroups[baseName] = { title: baseName, seasons: {} };
+    if (!seriesGroups[baseName].seasons[s]) seriesGroups[baseName].seasons[s] = [];
+    seriesGroups[baseName].seasons[s].push({ ...m, s, ep });
+  });
+
+  Object.values(seriesGroups).forEach(group => {
+    Object.values(group.seasons).forEach(seasonEpisodes => {
+      seasonEpisodes.sort((a, b) => b.ep - a.ep); // Sort descending
+    });
+  });
+
   // 6. Generate Movie Details Pages
   for (let i = 0; i < movies.length; i++) {
     const movie = movies[i];
+    
+    let seriesData = null;
+    if (movie.type === 'series') {
+      let baseName = movie.title.replace(/الموسم\s+[^\s]+/g, '')
+                            .replace(/الحلقة\s+\d+/g, '')
+                            .replace(/مترجم[ة]?/g, '')
+                            .replace(/مدبلج[ة]?/g, '')
+                            .replace(/مسلسل\s*/, '')
+                            .trim();
+      seriesData = seriesGroups[baseName] || null;
+    }
+
     const related = movies
       .filter(m => m.vid !== movie.vid && (
         m.category === movie.category ||
@@ -110,7 +156,7 @@ async function build() {
       ))
       .slice(0, 6);
       
-    await renderPage('movie.ejs', { movie, related, siteName }, `movie/${movie.vid}.html`);
+    await renderPage('movie.ejs', { movie, related, siteName, seriesData }, `movie/${movie.vid}.html`);
     sitemapUrls.push(`${SITE_URL}/movie/${movie.vid}.html`);
   }
 

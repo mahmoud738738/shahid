@@ -59,6 +59,45 @@
     </section>
   <% } %>
 
+  <% if (typeof seriesData !== 'undefined' && seriesData) { %>
+    <section class="series-section">
+      <div class="section-header">
+        <h2><i class="fas fa-list"></i> المواسم والحلقات (<%= seriesData.title %>)</h2>
+      </div>
+      
+      <div class="seasons-tabs">
+        <% 
+          const seasonKeys = Object.keys(seriesData.seasons).sort((a,b)=>a-b);
+          const currentSeason = movie.title.match(/الموسم\s+([^\s]+)/);
+          const seasonMap = { 'الاول': 1, 'الثاني': 2, 'الثالث': 3, 'الرابع': 4, 'الخامس': 5, 'السادس': 6, 'السابع': 7, 'الثامن': 8, 'التاسع': 9, 'العاشر': 10 };
+          let currentS = 1;
+          if (currentSeason) {
+            let sRaw = currentSeason[1];
+            currentS = parseInt(sRaw) || seasonMap[sRaw] || 1;
+          }
+        %>
+        <% seasonKeys.forEach(function(sKey) { %>
+          <button class="season-tab <%= parseInt(sKey) === currentS ? 'active' : '' %>" data-target="season-<%= sKey %>">
+            الموسم <%= sKey %>
+          </button>
+        <% }) %>
+      </div>
+
+      <div class="seasons-content">
+        <% seasonKeys.forEach(function(sKey) { %>
+          <div class="episodes-grid <%= parseInt(sKey) === currentS ? 'active' : '' %>" id="season-<%= sKey %>">
+            <% seriesData.seasons[sKey].forEach(function(ep) { %>
+              <a href="movie/<%= ep.vid %>.html" class="episode-card <%= ep.vid === movie.vid ? 'current' : '' %>">
+                <span class="ep-num">حلقة <%= ep.ep %></span>
+                <% if (ep.vid === movie.vid) { %><span class="ep-playing"><i class="fas fa-play-circle"></i> يتم التشغيل</span><% } %>
+              </a>
+            <% }) %>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+  <% } %>
+
   <% if (movie.downloads && movie.downloads.length > 0) { %>
     <section class="downloads-section">
       <div class="section-header">
