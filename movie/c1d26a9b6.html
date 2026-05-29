@@ -111,30 +111,29 @@
             <i class="fas fa-play"></i> سيرفر ماي سيما
           </button>
         
-          <button class="server-tab " data-server="1" data-embed="https://bysekoze.com/e/gpvi47z2adzv">
-            <i class="fas fa-play"></i> Bysekoze
-          </button>
-        
-          <button class="server-tab " data-server="2" data-embed="https://minochinos.com/v/2ufgsfuv2agd">
+          <button class="server-tab " data-server="1" data-embed="https://minochinos.com/v/2ufgsfuv2agd">
             <i class="fas fa-play"></i> Minochinos
           </button>
         
-          <button class="server-tab " data-server="3" data-embed="https://mixdrop.top/e/k0w3k09jsj09xk">
+          <button class="server-tab " data-server="2" data-embed="https://mixdrop.top/e/k0w3k09jsj09xk">
             <i class="fas fa-play"></i> Mixdrop
           </button>
         
-          <button class="server-tab " data-server="4" data-embed="https://playmogo.com/e/5lwznuy1gdax">
+          <button class="server-tab " data-server="3" data-embed="https://playmogo.com/e/5lwznuy1gdax">
             <i class="fas fa-play"></i> Playmogo
           </button>
         
-          <button class="server-tab " data-server="5" data-embed="https://voe.sx/e/pqhnbiyfgrg4">
+          <button class="server-tab " data-server="4" data-embed="https://voe.sx/e/pqhnbiyfgrg4">
             <i class="fas fa-play"></i> Voe
           </button>
         
       </div>
-      <div class="player-wrapper">
-        <iframe id="playerIframe" src="https://stmruby.com/embed-5ize9k4yrk7o.html" frameborder="0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+      <div class="player-wrapper" id="playerContainer">
+        <iframe id="playerIframe" src="https://stmruby.com/embed-5ize9k4yrk7o.html" frameborder="0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation" referrerpolicy="no-referrer"></iframe>
+        <!-- Ad shield: transparent overlay that blocks ad clicks on first tap, then disappears for real play -->
+        <div class="ad-shield" id="adShield" onclick="this.style.display='none'"></div>
       </div>
+      <p class="player-hint"><i class="fas fa-info-circle"></i> اضغط مرتين على المشغل لبدء التشغيل (الضغطة الأولى تحظر الإعلانات)</p>
     </section>
   
 

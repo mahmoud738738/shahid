@@ -109,38 +109,37 @@
             <i class="fas fa-play"></i> سيرفر ماي سيما
           </button>
         
-          <button class="server-tab " data-server="1" data-embed="https://bysekoze.com/e/olumwh7qkgs6">
-            <i class="fas fa-play"></i> Bysekoze
-          </button>
-        
-          <button class="server-tab " data-server="2" data-embed="https://vidara.to/e/4YIxaGCoY94Px">
+          <button class="server-tab " data-server="1" data-embed="https://vidara.to/e/4YIxaGCoY94Px">
             <i class="fas fa-play"></i> Vidara
           </button>
         
-          <button class="server-tab " data-server="3" data-embed="https://minochinos.com/v/2z785oub8rel">
+          <button class="server-tab " data-server="2" data-embed="https://minochinos.com/v/2z785oub8rel">
             <i class="fas fa-play"></i> Minochinos
           </button>
         
-          <button class="server-tab " data-server="4" data-embed="https://mixdrop.top/e/7k9qvjmqu8m700">
+          <button class="server-tab " data-server="3" data-embed="https://mixdrop.top/e/7k9qvjmqu8m700">
             <i class="fas fa-play"></i> Mixdrop
           </button>
         
-          <button class="server-tab " data-server="5" data-embed="https://playmogo.com/e/5dnuha4dtmnf">
+          <button class="server-tab " data-server="4" data-embed="https://playmogo.com/e/5dnuha4dtmnf">
             <i class="fas fa-play"></i> Playmogo
           </button>
         
-          <button class="server-tab " data-server="6" data-embed="https://voe.sx/e/ws5rfugqiv1d">
+          <button class="server-tab " data-server="5" data-embed="https://voe.sx/e/ws5rfugqiv1d">
             <i class="fas fa-play"></i> Voe
           </button>
         
-          <button class="server-tab " data-server="7" data-embed="https://forafile.com/embed-45qkf7fhabli.html">
+          <button class="server-tab " data-server="6" data-embed="https://forafile.com/embed-45qkf7fhabli.html">
             <i class="fas fa-play"></i> Forafile
           </button>
         
       </div>
-      <div class="player-wrapper">
-        <iframe id="playerIframe" src="https://stmruby.com/embed-1sm1bo6000cn.html" frameborder="0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+      <div class="player-wrapper" id="playerContainer">
+        <iframe id="playerIframe" src="https://stmruby.com/embed-1sm1bo6000cn.html" frameborder="0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation" referrerpolicy="no-referrer"></iframe>
+        <!-- Ad shield: transparent overlay that blocks ad clicks on first tap, then disappears for real play -->
+        <div class="ad-shield" id="adShield" onclick="this.style.display='none'"></div>
       </div>
+      <p class="player-hint"><i class="fas fa-info-circle"></i> اضغط مرتين على المشغل لبدء التشغيل (الضغطة الأولى تحظر الإعلانات)</p>
     </section>
   
 

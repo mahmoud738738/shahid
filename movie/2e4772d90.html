@@ -133,38 +133,37 @@
             <i class="fas fa-play"></i> Stmruby
           </button>
         
-          <button class="server-tab " data-server="7" data-embed="https://bysekoze.com/e/0veb1uamdz4s">
-            <i class="fas fa-play"></i> Bysekoze
-          </button>
-        
-          <button class="server-tab " data-server="8" data-embed="https://vidara.to/e/RmlVUD1GFXuAM">
+          <button class="server-tab " data-server="7" data-embed="https://vidara.to/e/RmlVUD1GFXuAM">
             <i class="fas fa-play"></i> Vidara
           </button>
         
-          <button class="server-tab " data-server="9" data-embed="https://minochinos.com/v/oj8md04e39zo">
+          <button class="server-tab " data-server="8" data-embed="https://minochinos.com/v/oj8md04e39zo">
             <i class="fas fa-play"></i> Minochinos
           </button>
         
-          <button class="server-tab " data-server="10" data-embed="https://mixdrop.top/e/3699gj39a8700k">
+          <button class="server-tab " data-server="9" data-embed="https://mixdrop.top/e/3699gj39a8700k">
             <i class="fas fa-play"></i> Mixdrop
           </button>
         
-          <button class="server-tab " data-server="11" data-embed="https://playmogo.com/e/s4dmuk6ugxhs">
+          <button class="server-tab " data-server="10" data-embed="https://playmogo.com/e/s4dmuk6ugxhs">
             <i class="fas fa-play"></i> Playmogo
           </button>
         
-          <button class="server-tab " data-server="12" data-embed="https://voe.sx/e/3nikaiqidcu9">
+          <button class="server-tab " data-server="11" data-embed="https://voe.sx/e/3nikaiqidcu9">
             <i class="fas fa-play"></i> Voe
           </button>
         
-          <button class="server-tab " data-server="13" data-embed="https://forafile.com/embed-3md1tl0axn57.html">
+          <button class="server-tab " data-server="12" data-embed="https://forafile.com/embed-3md1tl0axn57.html">
             <i class="fas fa-play"></i> Forafile
           </button>
         
       </div>
-      <div class="player-wrapper">
-        <iframe id="playerIframe" src="https://voe.sx/e/xxkmid9zlb6z" frameborder="0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
+      <div class="player-wrapper" id="playerContainer">
+        <iframe id="playerIframe" src="https://voe.sx/e/xxkmid9zlb6z" frameborder="0" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation" referrerpolicy="no-referrer"></iframe>
+        <!-- Ad shield: transparent overlay that blocks ad clicks on first tap, then disappears for real play -->
+        <div class="ad-shield" id="adShield" onclick="this.style.display='none'"></div>
       </div>
+      <p class="player-hint"><i class="fas fa-info-circle"></i> اضغط مرتين على المشغل لبدء التشغيل (الضغطة الأولى تحظر الإعلانات)</p>
     </section>
   
 
