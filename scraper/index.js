@@ -134,6 +134,8 @@ async function scrapeMoviePage(vid) {
     // Filter out known ad servers / misleading buttons (like "Hgcloud" ads)
     const isAd = name.toLowerCase().includes('hgcloud') || 
                  embedUrl.includes('hgcloud') || 
+                 name.toLowerCase().includes('bysekoze') ||
+                 embedUrl.includes('bysekoze') ||
                  name.toLowerCase().includes('اعلان') ||
                  name.toLowerCase().includes('ads');
 
