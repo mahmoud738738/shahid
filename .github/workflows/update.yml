@@ -1,6 +1,9 @@
 name: Auto Update Movies
 
 on:
+  push:
+    branches:
+      - master
   schedule:
     # Run every 6 hours
     - cron: '0 */6 * * *'
