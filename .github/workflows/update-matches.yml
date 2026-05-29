@@ -33,6 +33,14 @@ jobs:
       - name: Scrape Matches
         run: node scraper/matches.js
         
+      - name: Commit matches.json
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/matches.json
+          git commit -m "Auto-update matches data" || echo "No changes to commit"
+          git push origin HEAD || echo "No changes to push"
+          
       - name: Build Matches Pages
         run: node build.js
         
