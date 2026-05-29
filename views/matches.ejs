@@ -1,0 +1,46 @@
+<%- include('partials/header', { title: 'مباريات اليوم بث مباشر | ' + siteName, description: 'جدول مباريات اليوم بث مباشر بدون تقطيع، يلا شوت، يلا كورة.', url: '/matches.html' }) %>
+
+<section class="category-section">
+  <div class="section-header">
+    <h1><i class="fas fa-futbol"></i> مباريات اليوم بث مباشر</h1>
+    <p>تابع أهم مباريات اليوم بث مباشر بدون تقطيع، روابط محدثة باستمرار.</p>
+  </div>
+  
+  <div class="matches-list">
+    <% if (matches && matches.length > 0) { %>
+      <% for (let i = 0; i < matches.length; i++) { const match = matches[i]; %>
+        <div class="match-card <%= match.status.includes('جارية') || match.status.includes('الآن') ? 'live' : (match.status.includes('انتهت') ? 'ended' : 'soon') %>">
+          <a href="match/<%= match.id %>.html" class="match-link" title="بث مباشر مباراة <%= match.team1 %> و <%= match.team2 %>">
+            <div class="match-teams">
+              <div class="team">
+                <img src="<%= match.logo1 %>" alt="<%= match.team1 %>" loading="lazy">
+                <span class="team-name"><%= match.team1 %></span>
+              </div>
+              <div class="match-info-center">
+                <div class="match-time"><%= match.time %></div>
+                <div class="match-status-badge"><%= match.status %></div>
+                <div class="match-vs">VS</div>
+              </div>
+              <div class="team">
+                <img src="<%= match.logo2 %>" alt="<%= match.team2 %>" loading="lazy">
+                <span class="team-name"><%= match.team2 %></span>
+              </div>
+            </div>
+            <div class="match-details">
+              <span class="detail-item"><i class="fas fa-trophy"></i> <%= match.league %></span>
+              <span class="detail-item"><i class="fas fa-tv"></i> <%= match.channel %></span>
+              <span class="detail-item"><i class="fas fa-microphone"></i> <%= match.commentator %></span>
+            </div>
+          </a>
+        </div>
+      <% } %>
+    <% } else { %>
+      <div class="empty-state">
+        <i class="fas fa-futbol fa-4x"></i>
+        <h2>لا توجد مباريات متاحة اليوم</h2>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

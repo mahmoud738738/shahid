@@ -80,9 +80,10 @@ async function build() {
     await renderPage('index.ejs', { ...pData, latest, updatedAt, status, siteName, pagePrefix: 'page-' }, fileName);
   }
 
-  // 5. Generate Category Pages (Movies / Series)
+  // 5. Generate Category Pages (Movies / Series / Programs)
   const films = movies.filter(m => m.type === 'film');
-  const series = movies.filter(m => m.type === 'series');
+  const series = movies.filter(m => m.type === 'series' && m.category !== 'برامج تلفزيونية' && m.category !== 'عروض وحفلات');
+  const programs = movies.filter(m => m.category === 'برامج تلفزيونية' || m.category === 'عروض وحفلات');
 
   // Movies
   const filmsTotalPages = Math.ceil(films.length / perPage) || 1;
@@ -98,6 +99,14 @@ async function build() {
     const fileName = page === 1 ? 'series.html' : `series-page-${page}.html`;
     await renderPage('category.ejs', { ...paginate(series, page, perPage), category: 'المسلسلات', updatedAt, status, siteName, pagePrefix: 'series-page-' }, fileName);
     if(page === 1) sitemapUrls.push(`${SITE_URL}/series.html`);
+  }
+
+  // Programs
+  const programsTotalPages = Math.ceil(programs.length / perPage) || 1;
+  for (let page = 1; page <= programsTotalPages; page++) {
+    const fileName = page === 1 ? 'programs.html' : `programs-page-${page}.html`;
+    await renderPage('category.ejs', { ...paginate(programs, page, perPage), category: 'البرامج التلفزيونية', updatedAt, status, siteName, pagePrefix: 'programs-page-' }, fileName);
+    if(page === 1) sitemapUrls.push(`${SITE_URL}/programs.html`);
   }
 
   // Group series by base title
@@ -160,14 +169,39 @@ async function build() {
     sitemapUrls.push(`${SITE_URL}/movie/${movie.vid}.html`);
   }
 
-  // 6.5 Generate Search Page and copy data
+  // 6.5 Generate Matches Pages
+  const matchesFile = path.join(__dirname, 'data', 'matches.json');
+  let matches = [];
+  if (fs.existsSync(matchesFile)) {
+    try {
+      matches = JSON.parse(fs.readFileSync(matchesFile, 'utf8')).matches || [];
+    } catch (e) {
+      console.error('Failed to parse matches.json', e);
+    }
+  }
+
+  // Matches main page
+  await renderPage('matches.ejs', { matches, siteName }, 'matches.html');
+  sitemapUrls.push(`${SITE_URL}/matches.html`);
+
+  // Individual match pages
+  const matchDir = path.join(DIST_DIR, 'match');
+  if (!fs.existsSync(matchDir)) fs.mkdirSync(matchDir, { recursive: true });
+  for (const match of matches) {
+    await renderPage('match.ejs', { match, siteName, siteUrl: SITE_URL }, `match/${match.id}.html`);
+    sitemapUrls.push(`${SITE_URL}/match/${match.id}.html`);
+  }
+
+  // 7. Generate Search Page and copy data
   const dataDistDir = path.join(DIST_DIR, 'data');
   if (!fs.existsSync(dataDistDir)) fs.mkdirSync(dataDistDir, { recursive: true });
   fs.copyFileSync(DATA_FILE, path.join(dataDistDir, 'movies.json'));
+  if (fs.existsSync(matchesFile)) fs.copyFileSync(matchesFile, path.join(dataDistDir, 'matches.json'));
+  
   await renderPage('search.ejs', { siteName }, 'search.html');
   sitemapUrls.push(`${SITE_URL}/search.html`);
 
-  // 7. Generate Sitemap
+  // 8. Generate Sitemap
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${sitemapUrls.map(url => `  <url>\n    <loc>${url}</loc>\n    <lastmod>${updatedAt.split('T')[0]}</lastmod>\n  </url>`).join('\n')}
