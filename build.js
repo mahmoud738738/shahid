@@ -130,7 +130,7 @@ async function build() {
 
   Object.values(seriesGroups).forEach(group => {
     Object.values(group.seasons).forEach(seasonEpisodes => {
-      seasonEpisodes.sort((a, b) => b.ep - a.ep); // Sort descending
+      seasonEpisodes.sort((a, b) => a.ep - b.ep); // Sort ascending (1, 2, 3...)
     });
   });
 
