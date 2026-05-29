@@ -9,7 +9,7 @@
   <% if (movies && movies.length > 0) { %>
     <div class="movie-grid">
       <% movies.forEach(function(m) { %>
-        <a href="/movie/<%= m.vid %>.html" class="movie-card" title="<%= m.title %>">
+        <a href="movie/<%= m.vid %>.html" class="movie-card" title="<%= m.title %>">
           <div class="movie-card-poster">
             <% if (m.poster) { %>
               <img src="<%= m.poster %>" alt="<%= m.title %>" loading="lazy">
@@ -30,11 +30,11 @@
     <% if (totalPages > 1) { %>
       <div class="pagination">
         <% if (page > 1) { %>
-          <a href="/<%= pagePrefix %><%= page - 1 %>.html" class="page-link"><i class="fas fa-chevron-right"></i> السابق</a>
+          <a href="<%= pagePrefix %><%= page - 1 %>.html" class="page-link"><i class="fas fa-chevron-right"></i> السابق</a>
         <% } %>
         <span class="page-info">الصفحة <%= page %> من <%= totalPages %></span>
         <% if (page < totalPages) { %>
-          <a href="/<%= pagePrefix %><%= page + 1 %>.html" class="page-link">التالي <i class="fas fa-chevron-left"></i></a>
+          <a href="<%= pagePrefix %><%= page + 1 %>.html" class="page-link">التالي <i class="fas fa-chevron-left"></i></a>
         <% } %>
       </div>
     <% } %>

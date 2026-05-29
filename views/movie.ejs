@@ -1,9 +1,9 @@
 <%- include('partials/header', { title: movie.title }) %>
 <div class="container">
   <div class="breadcrumb">
-    <a href="/"><i class="fas fa-home"></i> الرئيسية</a>
+    <a href="./"><i class="fas fa-home"></i> الرئيسية</a>
     <span class="sep"><i class="fas fa-chevron-left"></i></span>
-    <a href="/<%= movie.type === 'series' ? 'series.html' : 'movies.html' %>"><%= movie.type === 'series' ? 'المسلسلات' : 'الأفلام' %></a>
+    <a href="<%= movie.type === 'series' ? 'series.html' : 'movies.html' %>"><%= movie.type === 'series' ? 'المسلسلات' : 'الأفلام' %></a>
     <span class="sep"><i class="fas fa-chevron-left"></i></span>
     <span><%= movie.title %></span>
   </div>
@@ -80,7 +80,7 @@
       </div>
       <div class="movie-grid">
         <% related.forEach(function(m) { %>
-          <a href="/movie/<%= m.vid %>.html" class="movie-card" title="<%= m.title %>">
+          <a href="movie/<%= m.vid %>.html" class="movie-card" title="<%= m.title %>">
             <div class="movie-card-poster">
               <img src="<%= m.poster || '' %>" alt="<%= m.title %>" loading="lazy">
               <% if (m.quality) { %><span class="quality-badge"><%= m.quality.split(' - ')[0] %></span><% } %>
