@@ -17,42 +17,34 @@
 
   <div class="match-teams-large">
     <div class="team-large">
-      <img src="<%= match.logo1 %>" alt="<%= match.team1 %>">
+      <img src="<%= match.logo1 %>" alt="<%= match.team1 %>" referrerpolicy="no-referrer">
       <h2><%= match.team1 %></h2>
     </div>
     <div class="vs-large"><%= (match.status.includes('انتهت') || match.status.includes('جارية') || match.status.includes('الآن')) ? (match.score || 'VS') : 'VS' %></div>
     <div class="team-large">
-      <img src="<%= match.logo2 %>" alt="<%= match.team2 %>">
+      <img src="<%= match.logo2 %>" alt="<%= match.team2 %>" referrerpolicy="no-referrer">
       <h2><%= match.team2 %></h2>
     </div>
   </div>
 
-  <% if (match.embedUrl) { %>
-  <div class="watch-external-section" style="text-align: center; padding: 30px 20px;">
-    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); border-radius: 20px; padding: 40px 30px; max-width: 600px; margin: 0 auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
-      <div style="margin-bottom: 20px;">
-        <i class="fas fa-play-circle" style="font-size: 48px; color: #e94560; text-shadow: 0 0 20px rgba(233,69,96,0.5);"></i>
+  <div class="player-container-wrapper" style="height: 600px; overflow: hidden; position: relative; border-radius: 12px; margin-top: 20px;">
+    <% if (match.embedUrl) { %>
+      <div class="video-responsive" style="height: 100%;">
+        <!-- We use top: -80px to hide yalashout.com's header and add extra height to push the footer down out of view -->
+        <iframe src="<%= match.embedUrl %>" frameborder="0" allowfullscreen="true" scrolling="no" style="position: absolute; top: -80px; left: 0; width: 100%; height: calc(100% + 500px);"></iframe>
       </div>
-      <h3 style="color: #fff; font-size: 1.3rem; margin-bottom: 8px; font-weight: 700;">المباراة متاحة للمشاهدة الآن</h3>
-      <p style="color: #a0a0b8; font-size: 0.95rem; margin-bottom: 25px;">اضغط على الزر أدناه لمشاهدة البث المباشر</p>
-      <a href="<%= match.embedUrl %>" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #e94560, #c23152); color: #fff; padding: 16px 40px; border-radius: 50px; font-size: 1.15rem; font-weight: 700; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 5px 25px rgba(233,69,96,0.4);">
-        <i class="fas fa-external-link-alt"></i>
-        شاهد المباراة على يلا شوت
-      </a>
-      <p style="color: #666; font-size: 0.8rem; margin-top: 18px;"><i class="fas fa-info-circle"></i> سيتم فتح البث في نافذة جديدة</p>
-    </div>
-  </div>
-  <% } else { %>
-  <div class="watch-external-section" style="text-align: center; padding: 30px 20px;">
-    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); border-radius: 20px; padding: 40px 30px; max-width: 600px; margin: 0 auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
-      <div style="margin-bottom: 20px;">
-        <i class="fas fa-video-slash" style="font-size: 48px; color: #a0a0b8;"></i>
+    <% } else { %>
+      <div class="watch-external-section" style="text-align: center; padding: 30px 20px;">
+        <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); border-radius: 20px; padding: 40px 30px; max-width: 600px; margin: 0 auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+          <div style="margin-bottom: 20px;">
+            <i class="fas fa-video-slash" style="font-size: 48px; color: #a0a0b8;"></i>
+          </div>
+          <h3 style="color: #fff; font-size: 1.3rem; margin-bottom: 8px; font-weight: 700;">البث غير متوفر حالياً</h3>
+          <p style="color: #a0a0b8; font-size: 0.95rem;">سيتم إضافة البث المباشر قبل بدء المباراة بقليل.</p>
+        </div>
       </div>
-      <h3 style="color: #fff; font-size: 1.3rem; margin-bottom: 8px; font-weight: 700;">البث غير متوفر حالياً</h3>
-      <p style="color: #a0a0b8; font-size: 0.95rem;">سيتم إضافة رابط البث قبل بدء المباراة بقليل.</p>
-    </div>
+    <% } %>
   </div>
-  <% } %>
 
   <div class="share-widget">
     <h3>شارك المباراة مع أصدقائك</h3>
