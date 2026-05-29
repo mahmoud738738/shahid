@@ -128,11 +128,20 @@ async function scrapeMoviePage(vid) {
   $('div.WatchServersList ul li btn.watch-server-btn').each((_, el) => {
     const $btn = $(el);
     const name = $btn.find('strong').text().trim();
-    if (name) {
+    const embedUrl = $btn.attr('data-embed-url') || '';
+    const dataUrl = $btn.attr('data-url') || '';
+    
+    // Filter out known ad servers / misleading buttons (like "Hgcloud" ads)
+    const isAd = name.toLowerCase().includes('hgcloud') || 
+                 embedUrl.includes('hgcloud') || 
+                 name.toLowerCase().includes('اعلان') ||
+                 name.toLowerCase().includes('ads');
+
+    if (name && !isAd && embedUrl) {
       servers.push({
         name,
-        embedUrl: $btn.attr('data-embed-url') || '',
-        dataUrl: $btn.attr('data-url') || '',
+        embedUrl,
+        dataUrl,
       });
     }
   });
