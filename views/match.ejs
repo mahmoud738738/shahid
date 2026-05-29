@@ -15,28 +15,6 @@
     </div>
   </div>
 
-  <div class="player-container-wrapper">
-    <% if (match.embedUrl) { %>
-      <div class="video-responsive">
-        <iframe src="<%= match.embedUrl %>" frameborder="0" allowfullscreen="true" scrolling="no" width="100%" height="100%"></iframe>
-      </div>
-    <% } else { %>
-      <div class="empty-state">
-        <i class="fas fa-video-slash fa-3x"></i>
-        <p>عذراً، البث غير متوفر حالياً. سيتم إضافته قبل بدء المباراة بقليل.</p>
-      </div>
-    <% } %>
-  </div>
-  
-  <div class="share-widget">
-    <h3>شارك المباراة مع أصدقائك</h3>
-    <div class="share-buttons">
-      <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(siteUrl + '/match/' + match.id + '.html') %>" target="_blank" class="share-btn fb"><i class="fab fa-facebook-f"></i> فيسبوك</a>
-      <a href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent(siteUrl + '/match/' + match.id + '.html') %>&text=<%= encodeURIComponent('بث مباشر مشاهدة مباراة ' + match.team1 + ' و ' + match.team2 + ' يلا شوت') %>" target="_blank" class="share-btn tw"><i class="fab fa-twitter"></i> تويتر</a>
-      <a href="https://api.whatsapp.com/send?text=<%= encodeURIComponent('شاهد مباراة ' + match.team1 + ' و ' + match.team2 + ' بث مباشر: ' + siteUrl + '/match/' + match.id + '.html') %>" target="_blank" class="share-btn wa"><i class="fab fa-whatsapp"></i> واتساب</a>
-    </div>
-  </div>
-
   <div class="match-teams-large">
     <div class="team-large">
       <img src="<%= match.logo1 %>" alt="<%= match.team1 %>">
@@ -46,6 +24,42 @@
     <div class="team-large">
       <img src="<%= match.logo2 %>" alt="<%= match.team2 %>">
       <h2><%= match.team2 %></h2>
+    </div>
+  </div>
+
+  <% if (match.embedUrl) { %>
+  <div class="watch-external-section" style="text-align: center; padding: 30px 20px;">
+    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); border-radius: 20px; padding: 40px 30px; max-width: 600px; margin: 0 auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+      <div style="margin-bottom: 20px;">
+        <i class="fas fa-play-circle" style="font-size: 48px; color: #e94560; text-shadow: 0 0 20px rgba(233,69,96,0.5);"></i>
+      </div>
+      <h3 style="color: #fff; font-size: 1.3rem; margin-bottom: 8px; font-weight: 700;">المباراة متاحة للمشاهدة الآن</h3>
+      <p style="color: #a0a0b8; font-size: 0.95rem; margin-bottom: 25px;">اضغط على الزر أدناه لمشاهدة البث المباشر</p>
+      <a href="<%= match.embedUrl %>" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #e94560, #c23152); color: #fff; padding: 16px 40px; border-radius: 50px; font-size: 1.15rem; font-weight: 700; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 5px 25px rgba(233,69,96,0.4);">
+        <i class="fas fa-external-link-alt"></i>
+        شاهد المباراة على يلا شوت
+      </a>
+      <p style="color: #666; font-size: 0.8rem; margin-top: 18px;"><i class="fas fa-info-circle"></i> سيتم فتح البث في نافذة جديدة</p>
+    </div>
+  </div>
+  <% } else { %>
+  <div class="watch-external-section" style="text-align: center; padding: 30px 20px;">
+    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); border-radius: 20px; padding: 40px 30px; max-width: 600px; margin: 0 auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+      <div style="margin-bottom: 20px;">
+        <i class="fas fa-video-slash" style="font-size: 48px; color: #a0a0b8;"></i>
+      </div>
+      <h3 style="color: #fff; font-size: 1.3rem; margin-bottom: 8px; font-weight: 700;">البث غير متوفر حالياً</h3>
+      <p style="color: #a0a0b8; font-size: 0.95rem;">سيتم إضافة رابط البث قبل بدء المباراة بقليل.</p>
+    </div>
+  </div>
+  <% } %>
+
+  <div class="share-widget">
+    <h3>شارك المباراة مع أصدقائك</h3>
+    <div class="share-buttons">
+      <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(siteUrl + '/match/' + match.id + '.html') %>" target="_blank" class="share-btn fb"><i class="fab fa-facebook-f"></i> فيسبوك</a>
+      <a href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent(siteUrl + '/match/' + match.id + '.html') %>&text=<%= encodeURIComponent('بث مباشر مشاهدة مباراة ' + match.team1 + ' و ' + match.team2 + ' يلا شوت') %>" target="_blank" class="share-btn tw"><i class="fab fa-twitter"></i> تويتر</a>
+      <a href="https://api.whatsapp.com/send?text=<%= encodeURIComponent('شاهد مباراة ' + match.team1 + ' و ' + match.team2 + ' بث مباشر: ' + siteUrl + '/match/' + match.id + '.html') %>" target="_blank" class="share-btn wa"><i class="fab fa-whatsapp"></i> واتساب</a>
     </div>
   </div>
 
