@@ -6,7 +6,7 @@ const DIST_DIR = path.join(__dirname, 'dist');
 const VIEWS_DIR = path.join(__dirname, 'views');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const DATA_FILE = path.join(__dirname, 'data', 'movies.json');
-const SITE_URL = 'https://mahmoud738738.github.io/shahid'; // Updated URL
+const SITE_URL = 'https://mahmoud738738.github.io/EgyShahid'; // Updated URL
 
 // Helper functions
 function copyDir(src, dest) {
@@ -64,7 +64,7 @@ async function build() {
   const updatedAt = data.updatedAt;
   const status = { movieCount: movies.length };
   
-  const siteName = 'شاهد';
+  const siteName = 'EgyShahid';
 
   const sitemapUrls = [];
   sitemapUrls.push(`${SITE_URL}/`);
