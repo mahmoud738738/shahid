@@ -8,7 +8,7 @@
       </div>
       <div class="latest-grid">
         <% latest.forEach(function(m) { %>
-          <a href="/movie/<%= m.vid %>.html" class="latest-card" title="<%= m.title %>">
+          <a href="movie/<%= m.vid %>.html" class="latest-card" title="<%= m.title %>">
             <div class="latest-card-poster">
               <img src="<%= m.poster || '' %>" alt="<%= m.title %>" loading="lazy">
               <% if (m.quality) { %><span class="quality-badge-sm"><%= m.quality.split(' - ')[0] %></span><% } %>

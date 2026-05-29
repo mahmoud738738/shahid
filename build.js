@@ -114,6 +114,13 @@ async function build() {
     sitemapUrls.push(`${SITE_URL}/movie/${movie.vid}.html`);
   }
 
+  // 6.5 Generate Search Page and copy data
+  const dataDistDir = path.join(DIST_DIR, 'data');
+  if (!fs.existsSync(dataDistDir)) fs.mkdirSync(dataDistDir, { recursive: true });
+  fs.copyFileSync(DATA_FILE, path.join(dataDistDir, 'movies.json'));
+  await renderPage('search.ejs', { siteName }, 'search.html');
+  sitemapUrls.push(`${SITE_URL}/search.html`);
+
   // 7. Generate Sitemap
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

@@ -1,45 +1,107 @@
-<%- include('partials/header', { title: 'بحث' }) %>
+<%- include('partials/header', { title: 'البحث' }) %>
 <div class="container">
   <div class="page-header">
-    <h1><i class="fas fa-search"></i> بحث</h1>
+    <h1>البحث عن الأفلام والمسلسلات</h1>
   </div>
 
-  <form class="search-form" action="/search" method="get">
-    <input type="text" name="q" placeholder="ابحث عن فيلم أو مسلسل..." value="<%= query %>" autofocus>
-    <button type="submit"><i class="fas fa-search"></i></button>
+  <form class="search-form" id="searchForm" onsubmit="event.preventDefault(); doSearch();">
+    <input type="text" id="searchInput" placeholder="ابحث عن اسم الفيلم، المسلسل، أو الممثل..." required>
+    <button type="submit"><i class="fas fa-search"></i> بحث</button>
   </form>
 
-  <% if (query) { %>
-    <p class="search-result-count"><%= movies.length %> نتيجة لـ "<%= query %>"</p>
-  <% } %>
-
-  <div class="movie-grid">
-    <% movies.forEach(function(m) { %>
-      <a href="/movie/<%= m.vid %>" class="movie-card" title="<%= m.title %>">
-        <div class="movie-card-poster">
-          <% if (m.poster) { %>
-            <img src="<%= m.poster %>" alt="<%= m.title %>" loading="lazy">
-          <% } else { %>
-            <div class="no-poster"><i class="fas fa-film"></i></div>
-          <% } %>
-          <% if (m.quality) { %><span class="quality-badge"><%= m.quality.split(' - ')[0] %></span><% } %>
-          <% if (m.type === 'series') { %><span class="type-badge-card">مسلسل</span><% } %>
-        </div>
-        <div class="movie-card-info">
-          <h3><%= m.title %></h3>
-          <div class="movie-meta">
-            <% if (m.year) { %><span><%= m.year %></span><% } %>
-          </div>
-        </div>
-      </a>
-    <% }) %>
+  <p class="search-result-count" id="searchCount"></p>
+  
+  <div class="movie-grid" id="searchResults">
+    <!-- Results will be injected here via JavaScript -->
   </div>
-
-  <% if (query && movies.length === 0) { %>
-    <div class="no-results">
-      <i class="fas fa-search"></i>
-      <p>لا توجد نتائج مطابقة للبحث</p>
-    </div>
-  <% } %>
+  
+  <div class="no-results" id="noResults" style="display: none;">
+    <i class="fas fa-folder-open"></i>
+    <p>لا توجد نتائج</p>
+  </div>
+  
+  <div class="no-results" id="loadingResults" style="display: none;">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>جاري البحث...</p>
+  </div>
 </div>
+
+<script>
+  let moviesData = [];
+  
+  async function loadData() {
+    if (moviesData.length === 0) {
+      document.getElementById('loadingResults').style.display = 'block';
+      try {
+        const res = await fetch('data/movies.json');
+        const json = await res.json();
+        moviesData = json.movies || [];
+      } catch (err) {
+        console.error('Error loading data', err);
+      }
+      document.getElementById('loadingResults').style.display = 'none';
+    }
+  }
+
+  async function doSearch() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    if (!q) return;
+    
+    await loadData();
+    
+    const results = moviesData.filter(m => 
+      (m.title && m.title.toLowerCase().includes(q)) ||
+      (m.quality && m.quality.toLowerCase().includes(q)) ||
+      (m.category && m.category.toLowerCase().includes(q)) ||
+      (m.genre && m.genre.toLowerCase().includes(q)) ||
+      (m.year && m.year.includes(q))
+    );
+    
+    document.getElementById('searchCount').innerText = `تم العثور على ${results.length} نتيجة لـ "${q}"`;
+    
+    const resultsDiv = document.getElementById('searchResults');
+    const noResultsDiv = document.getElementById('noResults');
+    
+    resultsDiv.innerHTML = '';
+    
+    if (results.length === 0) {
+      noResultsDiv.style.display = 'block';
+    } else {
+      noResultsDiv.style.display = 'none';
+      results.forEach(m => {
+        const qualityBadge = m.quality ? `<span class="quality-badge">${m.quality.split(' - ')[0]}</span>` : '';
+        const typeBadge = m.type === 'series' ? `<span class="type-badge-card">مسلسل</span>` : '';
+        const year = m.year ? `<span>${m.year}</span>` : '';
+        const qualityMeta = m.quality ? `<span>${m.quality.split(' - ')[0]}</span>` : '';
+        const poster = m.poster ? `<img src="${m.poster}" alt="${m.title}" loading="lazy">` : `<div class="no-poster"><i class="fas fa-film"></i></div>`;
+        
+        resultsDiv.innerHTML += `
+          <a href="movie/${m.vid}.html" class="movie-card" title="${m.title}">
+            <div class="movie-card-poster">
+              ${poster}
+              ${qualityBadge}
+              ${typeBadge}
+            </div>
+            <div class="movie-card-info">
+              <h3>${m.title}</h3>
+              <div class="movie-meta">
+                ${year}
+                ${qualityMeta}
+              </div>
+            </div>
+          </a>
+        `;
+      });
+    }
+  }
+
+  // Auto search on page load if ?q= is in URL
+  window.onload = () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('q')) {
+      document.getElementById('searchInput').value = params.get('q');
+      doSearch();
+    }
+  };
+</script>
 <%- include('partials/footer') %>
