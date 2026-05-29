@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>البحث - شاهد</title>
+  <base href="/shahid/">
+  
+  <!-- SEO & Meta Tags -->
+  <meta name="description" content="مشاهدة وتحميل أحدث الأفلام والمسلسلات بجودة عالية">
+  <meta property="og:title" content="البحث - شاهد">
+  <meta property="og:description" content="مشاهدة وتحميل أحدث الأفلام والمسلسلات بجودة عالية">
+  
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="./" class="logo">
+          <div class="logo-dots">
+            <span class="dot green"></span>
+            <span class="dot cyan"></span>
+            <span class="dot blue"></span>
+          </div>
+          <span class="logo-text">Shahid</span>
+        </a>
+      </div>
+      <nav class="nav" id="mainNav">
+        <a href="./" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="movies.html" class="nav-link"><i class="fas fa-film"></i> الأفلام</a>
+        <a href="series.html" class="nav-link"><i class="fas fa-tv"></i> المسلسلات</a>
+        <a href="search.html" class="nav-link"><i class="fas fa-search"></i> بحث</a>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="القائمة"><i class="fas fa-bars"></i></button>
+    </aside>
+    <main class="main-content">
+      <header class="mobile-header">
+        <a href="./" class="logo">
+          <div class="logo-dots">
+            <span class="dot green"></span>
+            <span class="dot cyan"></span>
+            <span class="dot blue"></span>
+          </div>
+          Shahid
+        </a>
+        <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('active')">
+          <i class="fas fa-bars"></i>
+        </button>
+      </header>
+      <div class="main-inner">
+
+<div class="container">
+  <div class="page-header">
+    <h1>البحث عن الأفلام والمسلسلات</h1>
+  </div>
+
+  <form class="search-form" id="searchForm" onsubmit="event.preventDefault(); doSearch();">
+    <input type="text" id="searchInput" placeholder="ابحث عن اسم الفيلم، المسلسل، أو الممثل..." required>
+    <button type="submit"><i class="fas fa-search"></i> بحث</button>
+  </form>
+
+  <p class="search-result-count" id="searchCount"></p>
+  
+  <div class="movie-grid" id="searchResults">
+    <!-- Results will be injected here via JavaScript -->
+  </div>
+  
+  <div class="no-results" id="noResults" style="display: none;">
+    <i class="fas fa-folder-open"></i>
+    <p>لا توجد نتائج</p>
+  </div>
+  
+  <div class="no-results" id="loadingResults" style="display: none;">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>جاري البحث...</p>
+  </div>
+</div>
+
+<script>
+  let moviesData = [];
+  
+  async function loadData() {
+    if (moviesData.length === 0) {
+      document.getElementById('loadingResults').style.display = 'block';
+      try {
+        const res = await fetch('data/movies.json');
+        const json = await res.json();
+        moviesData = json.movies || [];
+      } catch (err) {
+        console.error('Error loading data', err);
+      }
+      document.getElementById('loadingResults').style.display = 'none';
+    }
+  }
+
+  async function doSearch() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    if (!q) return;
+    
+    await loadData();
+    
+    const results = moviesData.filter(m => 
+      (m.title && m.title.toLowerCase().includes(q)) ||
+      (m.quality && m.quality.toLowerCase().includes(q)) ||
+      (m.category && m.category.toLowerCase().includes(q)) ||
+      (m.genre && m.genre.toLowerCase().includes(q)) ||
+      (m.year && m.year.includes(q))
+    );
+    
+    document.getElementById('searchCount').innerText = `تم العثور على ${results.length} نتيجة لـ "${q}"`;
+    
+    const resultsDiv = document.getElementById('searchResults');
+    const noResultsDiv = document.getElementById('noResults');
+    
+    resultsDiv.innerHTML = '';
+    
+    if (results.length === 0) {
+      noResultsDiv.style.display = 'block';
+    } else {
+      noResultsDiv.style.display = 'none';
+      results.forEach(m => {
+        const qualityBadge = m.quality ? `<span class="quality-badge">${m.quality.split(' - ')[0]}</span>` : '';
+        const typeBadge = m.type === 'series' ? `<span class="type-badge-card">مسلسل</span>` : '';
+        const year = m.year ? `<span>${m.year}</span>` : '';
+        const qualityMeta = m.quality ? `<span>${m.quality.split(' - ')[0]}</span>` : '';
+        const poster = m.poster ? `<img src="${m.poster}" alt="${m.title}" loading="lazy">` : `<div class="no-poster"><i class="fas fa-film"></i></div>`;
+        
+        resultsDiv.innerHTML += `
+          <a href="movie/${m.vid}.html" class="movie-card" title="${m.title}">
+            <div class="movie-card-poster">
+              ${poster}
+              ${qualityBadge}
+              ${typeBadge}
+            </div>
+            <div class="movie-card-info">
+              <h3>${m.title}</h3>
+              <div class="movie-meta">
+                ${year}
+                ${qualityMeta}
+              </div>
+            </div>
+          </a>
+        `;
+      });
+    }
+  }
+
+  // Auto search on page load if ?q= is in URL
+  window.onload = () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('q')) {
+      document.getElementById('searchInput').value = params.get('q');
+      doSearch();
+    }
+  };
+</script>
+      </div> <!-- End main-inner -->
+      <footer class="footer">
+        <p>جميع الحقوق محفوظة &copy; 2026 Shahid</p>
+      </footer>
+    </main>
+  </div>
+  <script src="/js/main.js"></script>
+</body>
+</html>
+
