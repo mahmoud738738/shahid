@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://mahmoud738738.github.io/shahid/sitemap.xml
+Sitemap: https://mahmoud738738.github.io/EgyShahid/sitemap.xml
