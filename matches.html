@@ -14,7 +14,7 @@
   
   <meta property="og:type" content="website">
 
-  <link rel="stylesheet" href="css/style.css?v=1780177169683">
+  <link rel="stylesheet" href="css/style.css?v=1780178859126">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
@@ -83,61 +83,139 @@
     <p>تابع أهم مباريات اليوم بث مباشر بدون تقطيع، روابط محدثة باستمرار.</p>
   </div>
   
-  <div class="matches-list">
+  
+
+  <div class="matches-tabs">
     
-      
-        <div class="match-card ended">
-          <a href="match/9d8ad2b1.html" class="match-link" title="بث مباشر مباراة باريس سان جيرمان و ارسنال">
-            <div class="match-teams">
-              <div class="team">
-                <img src="https://api.sofascore.com/api/v1/team/1644/image" alt="باريس سان جيرمان" loading="lazy" referrerpolicy="no-referrer">
-                <span class="team-name">باريس سان جيرمان</span>
-              </div>
-              <div class="match-info-center">
-                <div class="match-time"></div>
-                <div class="match-status-badge">انتهت</div>
-                <div class="match-vs">1 - 1</div>
-              </div>
-              <div class="team">
-                <img src="https://api.sofascore.com/api/v1/team/42/image" alt="ارسنال" loading="lazy" referrerpolicy="no-referrer">
-                <span class="team-name">ارسنال</span>
-              </div>
-            </div>
-            <div class="match-details">
-              <span class="detail-item"><i class="fas fa-trophy"></i> دوري أبطال أوروبا</span>
-              <span class="detail-item"><i class="fas fa-tv"></i> غير محدد</span>
-              <span class="detail-item"><i class="fas fa-microphone"></i> </span>
-            </div>
-          </a>
-        </div>
-      
-        <div class="match-card ended">
-          <a href="match/0afbfd40.html" class="match-link" title="بث مباشر مباراة نادي الفتح الرياضي و نادي الجيش الملكي">
-            <div class="match-teams">
-              <div class="team">
-                <img src="https://api.sofascore.com/api/v1/team/55027/image" alt="نادي الفتح الرياضي" loading="lazy" referrerpolicy="no-referrer">
-                <span class="team-name">نادي الفتح الرياضي</span>
-              </div>
-              <div class="match-info-center">
-                <div class="match-time"></div>
-                <div class="match-status-badge">انتهت</div>
-                <div class="match-vs">1 - 1</div>
-              </div>
-              <div class="team">
-                <img src="https://api.sofascore.com/api/v1/team/24394/image" alt="نادي الجيش الملكي" loading="lazy" referrerpolicy="no-referrer">
-                <span class="team-name">نادي الجيش الملكي</span>
-              </div>
-            </div>
-            <div class="match-details">
-              <span class="detail-item"><i class="fas fa-trophy"></i> البطولة الإحترافية 1</span>
-              <span class="detail-item"><i class="fas fa-tv"></i> غير محدد</span>
-              <span class="detail-item"><i class="fas fa-microphone"></i> </span>
-            </div>
-          </a>
-        </div>
-      
+      <button class="match-tab " onclick="showMatches('yesterday')">الأمس</button>
+    
+      <button class="match-tab active" onclick="showMatches('today')">اليوم</button>
+    
+      <button class="match-tab " onclick="showMatches('tomorrow')">الغد</button>
     
   </div>
+
+  
+    <div class="matches-list-container" id="matches-yesterday" style="display: none;">
+      <div class="matches-list">
+        
+          <div class="empty-state">
+            <i class="fas fa-futbol fa-4x"></i>
+            <h2>لا توجد مباريات متاحة الأمس</h2>
+          </div>
+        
+      </div>
+    </div>
+  
+    <div class="matches-list-container" id="matches-today" style="display: block;">
+      <div class="matches-list">
+        
+          
+            <div class="match-card ended">
+              <a href="match/9d8ad2b1.html" class="match-link" title="بث مباشر مباراة باريس سان جيرمان و ارسنال">
+                <div class="match-teams">
+                  <div class="team">
+                    <img src="https://api.sofascore.com/api/v1/team/1644/image" alt="باريس سان جيرمان" loading="lazy" referrerpolicy="no-referrer">
+                    <span class="team-name">باريس سان جيرمان</span>
+                  </div>
+                  <div class="match-info-center">
+                    <div class="match-time"></div>
+                    <div class="match-status-badge">انتهت</div>
+                    <div class="match-vs">1 - 1</div>
+                  </div>
+                  <div class="team">
+                    <img src="https://api.sofascore.com/api/v1/team/42/image" alt="ارسنال" loading="lazy" referrerpolicy="no-referrer">
+                    <span class="team-name">ارسنال</span>
+                  </div>
+                </div>
+                <div class="match-details">
+                  <span class="detail-item"><i class="fas fa-trophy"></i> دوري أبطال أوروبا</span>
+                  <span class="detail-item"><i class="fas fa-tv"></i> غير محدد</span>
+                  
+                </div>
+              </a>
+            </div>
+          
+            <div class="match-card ended">
+              <a href="match/0afbfd40.html" class="match-link" title="بث مباشر مباراة نادي الفتح الرياضي و نادي الجيش الملكي">
+                <div class="match-teams">
+                  <div class="team">
+                    <img src="https://api.sofascore.com/api/v1/team/55027/image" alt="نادي الفتح الرياضي" loading="lazy" referrerpolicy="no-referrer">
+                    <span class="team-name">نادي الفتح الرياضي</span>
+                  </div>
+                  <div class="match-info-center">
+                    <div class="match-time"></div>
+                    <div class="match-status-badge">انتهت</div>
+                    <div class="match-vs">1 - 1</div>
+                  </div>
+                  <div class="team">
+                    <img src="https://api.sofascore.com/api/v1/team/24394/image" alt="نادي الجيش الملكي" loading="lazy" referrerpolicy="no-referrer">
+                    <span class="team-name">نادي الجيش الملكي</span>
+                  </div>
+                </div>
+                <div class="match-details">
+                  <span class="detail-item"><i class="fas fa-trophy"></i> البطولة الإحترافية 1</span>
+                  <span class="detail-item"><i class="fas fa-tv"></i> غير محدد</span>
+                  
+                </div>
+              </a>
+            </div>
+          
+        
+      </div>
+    </div>
+  
+    <div class="matches-list-container" id="matches-tomorrow" style="display: none;">
+      <div class="matches-list">
+        
+          <div class="empty-state">
+            <i class="fas fa-futbol fa-4x"></i>
+            <h2>لا توجد مباريات متاحة الغد</h2>
+          </div>
+        
+      </div>
+    </div>
+  
+
+  <script>
+    function showMatches(dayId) {
+      document.querySelectorAll('.matches-list-container').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.match-tab').forEach(el => el.classList.remove('active'));
+      document.getElementById('matches-' + dayId).style.display = 'block';
+      event.currentTarget.classList.add('active');
+    }
+  </script>
+
+  <style>
+    .matches-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .match-tab {
+      background: #1a2238;
+      color: #8c9bba;
+      border: 1px solid #2d3748;
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    .match-tab:hover {
+      color: #fff;
+      border-color: #e94560;
+    }
+    .match-tab.active {
+      background: linear-gradient(135deg, #e94560, #d63350);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+    }
+  </style>
 </section>
 
       </div> <!-- End main-inner -->
