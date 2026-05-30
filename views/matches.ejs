@@ -25,41 +25,99 @@
     <p>تابع أهم مباريات اليوم بث مباشر بدون تقطيع، روابط محدثة باستمرار.</p>
   </div>
   
-  <div class="matches-list">
-    <% if (matches && matches.length > 0) { %>
-      <% for (let i = 0; i < matches.length; i++) { const match = matches[i]; %>
-        <div class="match-card <%= match.status.includes('جارية') || match.status.includes('الآن') ? 'live' : (match.status.includes('انتهت') ? 'ended' : 'soon') %>">
-          <a href="match/<%= match.id %>.html" class="match-link" title="بث مباشر مباراة <%= match.team1 %> و <%= match.team2 %>">
-            <div class="match-teams">
-              <div class="team">
-                <img src="<%= match.logo1 %>" alt="<%= match.team1 %>" loading="lazy" referrerpolicy="no-referrer">
-                <span class="team-name"><%= match.team1 %></span>
-              </div>
-              <div class="match-info-center">
-                <div class="match-time"><%= match.time %></div>
-                <div class="match-status-badge"><%= match.status %></div>
-                <div class="match-vs"><%= (match.status.includes('انتهت') || match.status.includes('جارية') || match.status.includes('الآن')) ? (match.score || 'VS') : 'VS' %></div>
-              </div>
-              <div class="team">
-                <img src="<%= match.logo2 %>" alt="<%= match.team2 %>" loading="lazy" referrerpolicy="no-referrer">
-                <span class="team-name"><%= match.team2 %></span>
-              </div>
-            </div>
-            <div class="match-details">
-              <span class="detail-item"><i class="fas fa-trophy"></i> <%= match.league %></span>
-              <span class="detail-item"><i class="fas fa-tv"></i> <%= match.channel %></span>
-              <span class="detail-item"><i class="fas fa-microphone"></i> <%= match.commentator %></span>
-            </div>
-          </a>
-        </div>
-      <% } %>
-    <% } else { %>
-      <div class="empty-state">
-        <i class="fas fa-futbol fa-4x"></i>
-        <h2>لا توجد مباريات متاحة اليوم</h2>
-      </div>
-    <% } %>
+  <%
+    const days = [
+      { id: 'yesterday', label: 'الأمس', data: matches.yesterday || [] },
+      { id: 'today', label: 'اليوم', data: matches.today || [] },
+      { id: 'tomorrow', label: 'الغد', data: matches.tomorrow || [] }
+    ];
+  %>
+
+  <div class="matches-tabs">
+    <% days.forEach(day => { %>
+      <button class="match-tab <%= day.id === 'today' ? 'active' : '' %>" onclick="showMatches('<%= day.id %>')"><%= day.label %></button>
+    <% }) %>
   </div>
+
+  <% days.forEach(day => { %>
+    <div class="matches-list-container" id="matches-<%= day.id %>" style="display: <%= day.id === 'today' ? 'block' : 'none' %>;">
+      <div class="matches-list">
+        <% if (day.data && day.data.length > 0) { %>
+          <% for (let i = 0; i < day.data.length; i++) { const match = day.data[i]; %>
+            <div class="match-card <%= match.status.includes('جارية') || match.status.includes('الآن') ? 'live' : (match.status.includes('انتهت') ? 'ended' : 'soon') %>">
+              <a href="match/<%= match.id %>.html" class="match-link" title="بث مباشر مباراة <%= match.team1 %> و <%= match.team2 %>">
+                <div class="match-teams">
+                  <div class="team">
+                    <img src="<%= match.logo1 %>" alt="<%= match.team1 %>" loading="lazy" referrerpolicy="no-referrer">
+                    <span class="team-name"><%= match.team1 %></span>
+                  </div>
+                  <div class="match-info-center">
+                    <div class="match-time"><%= match.time %></div>
+                    <div class="match-status-badge"><%= match.status %></div>
+                    <div class="match-vs"><%= (match.status.includes('انتهت') || match.status.includes('جارية') || match.status.includes('الآن')) ? (match.score || 'VS') : 'VS' %></div>
+                  </div>
+                  <div class="team">
+                    <img src="<%= match.logo2 %>" alt="<%= match.team2 %>" loading="lazy" referrerpolicy="no-referrer">
+                    <span class="team-name"><%= match.team2 %></span>
+                  </div>
+                </div>
+                <div class="match-details">
+                  <span class="detail-item"><i class="fas fa-trophy"></i> <%= match.league %></span>
+                  <span class="detail-item"><i class="fas fa-tv"></i> <%= match.channel %></span>
+                  <% if(match.commentator) { %><span class="detail-item"><i class="fas fa-microphone"></i> <%= match.commentator %></span><% } %>
+                </div>
+              </a>
+            </div>
+          <% } %>
+        <% } else { %>
+          <div class="empty-state">
+            <i class="fas fa-futbol fa-4x"></i>
+            <h2>لا توجد مباريات متاحة <%= day.label %></h2>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  <% }) %>
+
+  <script>
+    function showMatches(dayId) {
+      document.querySelectorAll('.matches-list-container').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.match-tab').forEach(el => el.classList.remove('active'));
+      document.getElementById('matches-' + dayId).style.display = 'block';
+      event.currentTarget.classList.add('active');
+    }
+  </script>
+
+  <style>
+    .matches-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .match-tab {
+      background: #1a2238;
+      color: #8c9bba;
+      border: 1px solid #2d3748;
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    .match-tab:hover {
+      color: #fff;
+      border-color: #e94560;
+    }
+    .match-tab.active {
+      background: linear-gradient(135deg, #e94560, #d63350);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+    }
+  </style>
 </section>
 
 <%- include('partials/footer') %>

@@ -180,23 +180,29 @@ async function build() {
 
   // 6.5 Generate Matches Pages
   const matchesFile = path.join(__dirname, 'data', 'matches.json');
-  let matches = [];
+  let matchesData = { yesterday: [], today: [], tomorrow: [] };
+  let allMatches = [];
   if (fs.existsSync(matchesFile)) {
     try {
-      matches = JSON.parse(fs.readFileSync(matchesFile, 'utf8')).matches || [];
+      matchesData = JSON.parse(fs.readFileSync(matchesFile, 'utf8')).matches || matchesData;
+      if (Array.isArray(matchesData)) {
+        // Fallback if old format is still somehow present
+        matchesData = { yesterday: [], today: matchesData, tomorrow: [] };
+      }
+      allMatches = [...(matchesData.yesterday||[]), ...(matchesData.today||[]), ...(matchesData.tomorrow||[])];
     } catch (e) {
       console.error('Failed to parse matches.json', e);
     }
   }
 
   // Matches main page
-  await renderPage('matches.ejs', { matches, siteName }, 'matches.html');
+  await renderPage('matches.ejs', { matches: matchesData, siteName }, 'matches.html');
   sitemapUrls.push(`${SITE_URL}/matches.html`);
 
   // Individual match pages
   const matchDir = path.join(DIST_DIR, 'match');
   if (!fs.existsSync(matchDir)) fs.mkdirSync(matchDir, { recursive: true });
-  for (const match of matches) {
+  for (const match of allMatches) {
     await renderPage('match.ejs', { match, siteName, siteUrl: SITE_URL }, `match/${match.id}.html`);
     sitemapUrls.push(`${SITE_URL}/match/${match.id}.html`);
   }
