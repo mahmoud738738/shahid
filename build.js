@@ -72,7 +72,16 @@ async function build() {
   // 4. Generate Home Pages (Pagination)
   const perPage = 24;
   const totalPages = Math.ceil(movies.length / perPage) || 1;
-  const latest = movies.slice(0, 6);
+  
+  const currentYear = new Date().getFullYear();
+  let latest = movies.filter(m => parseInt(m.year) === currentYear).slice(0, 6);
+  if (latest.length === 0) {
+    const maxYear = Math.max(...movies.map(m => parseInt(m.year) || 0));
+    if (maxYear > 0) {
+      latest = movies.filter(m => parseInt(m.year) === maxYear).slice(0, 6);
+    }
+    if (latest.length === 0) latest = movies.slice(0, 6);
+  }
   
   for (let page = 1; page <= totalPages; page++) {
     const pData = paginate(movies, page, perPage);
