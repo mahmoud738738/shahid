@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-31T11:13:03.610Z",
+  "updatedAt": "2026-05-31T12:20:38.660Z",
   "source": "yallakora.com",
   "matches": {
     "yesterday": [
@@ -45,6 +45,19 @@
     ],
     "today": [
       {
+        "id": "e54779b8",
+        "team1": "اليــــابان",
+        "team2": "أيسلندا",
+        "logo1": "https://mediayk.gemini.media/img/yallakora/iosteams/120\\2018\\7\\24\\Japan2018_7_24_14_46.jpg",
+        "logo2": "https://mediayk.gemini.media/img/yallakora/iosteams/120\\2018\\7\\24\\Iceland2018_7_24_14_38.jpg",
+        "time": "13:25",
+        "score": "1 - 0",
+        "league": "مباريات ودية - منتخبات",
+        "channel": "",
+        "status": "مباشر",
+        "link": "https://www.yallakora.com/friendly-matches-nations/2438/match/111121/%d8%a7%d9%84%d9%8a%d9%80%d9%80%d9%80%d9%80%d8%a7%d8%a8%d8%a7%d9%86-%d8%a3%d9%8a%d8%b3%d9%84%d9%86%d8%af%d8%a7-%d9%85%d8%a8%d8%a7%d8%b1%d9%8a%d8%a7%d8%aa-%d9%88%d8%af%d9%8a%d8%a9-%d9%85%d9%86%d8%aa%d8%ae%d8%a8%d8%a7%d8%aa#MC_MatcheDetails"
+      },
+      {
         "id": "8f767146",
         "team1": "الأهلي بنغازي",
         "team2": "الأهلي",
@@ -69,19 +82,6 @@
         "channel": "ON Sport PLUS",
         "status": "لم تبدأ",
         "link": "https://www.yallakora.com/basketball-africa-league/3026/match/111112/%d8%a8%d8%aa%d8%b1%d9%88-%d8%af%d9%8a-%d9%84%d9%88%d8%a7%d9%86%d8%af%d8%a7-%d9%86%d8%a7%d8%af%d9%8a-%d8%aa%d8%a7%d9%8a%d8%ac%d8%b1%d8%b2-%d8%a7%d9%84%d8%af%d9%88%d8%b1%d9%8a-%d8%a7%d9%84%d8%a3%d9%81%d8%b1%d9%8a%d9%82%d9%8a-%d9%84%d9%83%d8%b1%d8%a9-%d8%a7%d9%84%d8%b3%d9%84%d8%a9#MC_MatcheDetails"
-      },
-      {
-        "id": "e54779b8",
-        "team1": "اليــــابان",
-        "team2": "أيسلندا",
-        "logo1": "https://mediayk.gemini.media/img/yallakora/iosteams/120\\2018\\7\\24\\Japan2018_7_24_14_46.jpg",
-        "logo2": "https://mediayk.gemini.media/img/yallakora/iosteams/120\\2018\\7\\24\\Iceland2018_7_24_14_38.jpg",
-        "time": "13:25",
-        "score": "",
-        "league": "مباريات ودية - منتخبات",
-        "channel": "",
-        "status": "لم تبدأ",
-        "link": "https://www.yallakora.com/friendly-matches-nations/2438/match/111121/%d8%a7%d9%84%d9%8a%d9%80%d9%80%d9%80%d9%80%d8%a7%d8%a8%d8%a7%d9%86-%d8%a3%d9%8a%d8%b3%d9%84%d9%86%d8%af%d8%a7-%d9%85%d8%a8%d8%a7%d8%b1%d9%8a%d8%a7%d8%aa-%d9%88%d8%af%d9%8a%d8%a9-%d9%85%d9%86%d8%aa%d8%ae%d8%a8%d8%a7%d8%aa#MC_MatcheDetails"
       },
       {
         "id": "4d226e88",
@@ -188,6 +188,19 @@
         "channel": "",
         "status": "لم تبدأ",
         "link": "https://www.yallakora.com/egyptian-league-cup/3012/match/111095/%d9%88%d8%a7%d8%af%d9%8a-%d8%af%d8%ac%d9%84%d8%a9-%d8%a5%d9%86%d8%a8%d9%8a-%d9%83%d8%a3%d8%b3-%d8%b1%d8%a7%d8%a8%d8%b7%d8%a9-%d8%a7%d9%84%d8%a3%d9%86%d8%af%d9%8a%d8%a9-#MC_MatcheDetails"
+      },
+      {
+        "id": "0c2854a6",
+        "team1": "البرازيل",
+        "team2": "بنما",
+        "logo1": "https://mediayk.gemini.media/img/yallakora/iosteams/120\\2018\\7\\24\\Brazil2018_7_24_14_44.jpg",
+        "logo2": "https://mediayk.gemini.media/img/yallakora/iosteams/120\\2018\\7\\24\\Panama2018_7_24_14_42.jpg",
+        "time": "00:30",
+        "score": "",
+        "league": "مباريات ودية - منتخبات",
+        "channel": "",
+        "status": "لم تبدأ",
+        "link": "https://www.yallakora.com/friendly-matches-nations/2438/match/111124/%d8%a7%d9%84%d8%a8%d8%b1%d8%a7%d8%b2%d9%8a%d9%84-%d8%a8%d9%86%d9%85%d8%a7-%d9%85%d8%a8%d8%a7%d8%b1%d9%8a%d8%a7%d8%aa-%d9%88%d8%af%d9%8a%d8%a9-%d9%85%d9%86%d8%aa%d8%ae%d8%a8%d8%a7%d8%aa#MC_MatcheDetails"
       },
       {
         "id": "0aa495ae",
