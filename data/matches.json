@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-31T01:50:45.881Z",
+  "updatedAt": "2026-05-31T06:08:11.222Z",
   "source": "yallakora.com",
   "matches": {
     "yesterday": [
@@ -44,19 +44,6 @@
       }
     ],
     "today": [
-      {
-        "id": "31a7cade",
-        "team1": "السعودية",
-        "team2": "إكوادور",
-        "logo1": "https://mediayk.gemini.media/img/yallakora/iosteams/120\\2018\\7\\24\\Saudi2018_7_24_14_46.jpg",
-        "logo2": "https://mediayk.gemini.media/img/yallakora/iosteams/120\\2019\\3\\20\\Ecuador2019_3_20_18_44.jpg",
-        "time": "03:00",
-        "score": "0 - 2",
-        "league": "مباريات ودية - منتخبات",
-        "channel": "",
-        "status": "مباشر",
-        "link": "https://www.yallakora.com/friendly-matches-nations/2438/match/111098/%d8%a7%d9%84%d8%b3%d8%b9%d9%88%d8%af%d9%8a%d8%a9-%d8%a5%d9%83%d9%88%d8%a7%d8%af%d9%88%d8%b1-%d9%85%d8%a8%d8%a7%d8%b1%d9%8a%d8%a7%d8%aa-%d9%88%d8%af%d9%8a%d8%a9-%d9%85%d9%86%d8%aa%d8%ae%d8%a8%d8%a7%d8%aa#MC_MatcheDetails"
-      },
       {
         "id": "8f767146",
         "team1": "الأهلي بنغازي",
@@ -160,6 +147,19 @@
         "channel": "ON Sport PLUS",
         "status": "لم تبدأ",
         "link": "https://www.yallakora.com/friendly-matches-nations/2438/match/111123/%d8%a3%d9%85%d8%b1%d9%8a%d9%83%d8%a7--%d8%a7%d9%84%d8%b3%d9%86%d8%ba%d8%a7%d9%84--%d9%85%d8%a8%d8%a7%d8%b1%d9%8a%d8%a7%d8%aa-%d9%88%d8%af%d9%8a%d8%a9-%d9%85%d9%86%d8%aa%d8%ae%d8%a8%d8%a7%d8%aa#MC_MatcheDetails"
+      },
+      {
+        "id": "31a7cade",
+        "team1": "السعودية",
+        "team2": "إكوادور",
+        "logo1": "https://mediayk.gemini.media/img/yallakora/iosteams/120\\2018\\7\\24\\Saudi2018_7_24_14_46.jpg",
+        "logo2": "https://mediayk.gemini.media/img/yallakora/iosteams/120\\2019\\3\\20\\Ecuador2019_3_20_18_44.jpg",
+        "time": "03:00",
+        "score": "1 - 2",
+        "league": "مباريات ودية - منتخبات",
+        "channel": "",
+        "status": "انتهت",
+        "link": "https://www.yallakora.com/friendly-matches-nations/2438/match/111098/%d8%a7%d9%84%d8%b3%d8%b9%d9%88%d8%af%d9%8a%d8%a9-%d8%a5%d9%83%d9%88%d8%a7%d8%af%d9%88%d8%b1-%d9%85%d8%a8%d8%a7%d8%b1%d9%8a%d8%a7%d8%aa-%d9%88%d8%af%d9%8a%d8%a9-%d9%85%d9%86%d8%aa%d8%ae%d8%a8%d8%a7%d8%aa#MC_MatcheDetails"
       }
     ],
     "tomorrow": [
